@@ -1,0 +1,131 @@
+/* ==========================================================
+! Body
+========================================================== */
+body {
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: subpixel-antialiased;
+  background: #5d86bb;
+}
+
+.background-image {
+	display:none;
+}
+
+@media (min-width:992px) {
+  body {
+	background-color: black;
+  }
+  .background-image {
+	  background-image: url('img/bg2.jpg');
+	  background-size: cover;
+	  background-position-y: bottom;
+	  display: block;
+	  filter: blur(15px);
+	  height: 100%;
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  z-index: -1;
+	}
+}
+
+.section-vcardbody {
+  width: 100%;
+  max-width:450px;
+  margin: 0 auto;
+  background: #f4f4f4;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  -webkit-transition: all 0.6s ease-in-out;
+  -moz-transition: all 0.6s ease-in-out;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -webkit-box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.46);
+  -moz-box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.46);
+  box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.46);
+}
+@media (min-width:992px) {
+  .section-vcardbody {
+    margin-top: 30px;
+    padding: 45px;
+  }
+}
+/* ==========================================================
+! 08. Home
+========================================================== */
+.profile-title {
+  font-weight: bold;
+  margin-top: 0;
+  font-size: 36px;
+  letter-spacing: -2px;
+  margin-bottom: 8px;
+  color: #383838;
+}
+.profile-subtitle {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/**
+ *  Bootstrap Overrides
+ */
+	.navbar-toggle{
+		background-color: #f8f8f8;
+		display: block;
+		float: left;
+		margin-left: 15px;
+	}
+	
+	.navbar-default {
+		background-color: transparent;
+		border-color: transparent;
+	}
+
+	.navbar-fixed-top .container .sidenav {
+		height: 100%;
+		width: 0;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #1a1a1a;
+		overflow-x: hidden;
+		transition: 0.5s;
+		padding-top: 50px;
+		white-space: nowrap;
+	}
+	.navbar-fixed-top .container .sidenav h2{
+		padding: 4px 0px 4px 10px;
+		color: #ffad33;
+	}
+	.navbar-fixed-top .container .sidenav a {
+		padding: 4px 0px 4px 35px;
+		text-decoration: none;
+		font-size: 20px;
+		color: #999;
+		display: block;
+		transition: 0.3s;
+		border-bottom: 0px;
+	}
+	.navbar-fixed-top .container .sidenav a:hover {
+		color: #fff;
+		background-color: maroon;
+	}
+	.navbar-fixed-top .container .closebtn {
+		position: absolute;
+		top: 0;
+		right: 25px;
+		font-size: 36px !important;
+		margin-left: 50px;
+	}
+	@media screen and (max-height: 480px) {
+		.navbar-fixed-top .container .sidenav {
+		padding-top: 15px; }
+		.navbar-fixed-top .container .sidenav a {
+		font-size: 18px; }
+	}
