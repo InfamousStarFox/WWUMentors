@@ -17,7 +17,7 @@ if(isset($_SESSION['user'])){
 	}
 
 	$username=$_SESSION['user'];
-	$name= fCleanString($link, $username, 25);
+	$email= fCleanString($link, $username, 25);
 
 	$stmt = $link->prepare("SELECT id, class, location, question, difficulty, a.created_time, 
 								(SELECT count(1)
@@ -28,7 +28,7 @@ if(isset($_SESSION['user'])){
 							FROM `questions` as a
 							WHERE name=? 
 							AND a.completed_time IS NULL");
-	$stmt->bind_param("s", $name);
+	$stmt->bind_param("s", $email);
 	$stmt->execute();
 	$stmt->bind_result($id, $class, $location, $question, $difficulty, $created_time, $waitlist);
 	if($stmt->fetch()){
@@ -65,7 +65,7 @@ if(isset($_SESSION['user'])){
 
 		$stmt = $link->prepare("INSERT INTO questions (name, class, location, question, difficulty, created_time)
 								VALUES (?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("ssssss", $name, $class, $location, $question, $difficulty, $date);
+		$stmt->bind_param("ssssss", $email, $class, $location, $question, $difficulty, $date);
 		$stmt->execute();
 		$stmt->close();
 		$message="Question Submitted";
@@ -89,27 +89,34 @@ if(isset($_SESSION['user'])){
     </center>
 
     <?php if($isDisabled){
-            echo "
-                    <h3 class=\"section-item-title-1\">Waitlist Position #$waitlist</h3>
-                    <p>
-                        <b>Student:</b> $name<br>
-                        <b>Class:</b> $class<br>
-                        <b>Location:</b> $location<br>
-                        <b>Question:</b> $question<br>
-                        <b>Difficulty:</b> $difficulty</br>
-                    </p>
-                    <form action=\"index.php\" method=\"POST\">
-                    <div class=\"form-group\">
-                        <label for=\"answer\">Answer</label>
-                        <input type=\"text\" class=\"form-control\" name=\"answer\">
-                    </div>
+		$stmt = $link->prepare("SELECT name FROM mentors WHERE email=?");
+		$stmt->bind_param("s", $email);
+		$stmt->execute();
+		$stmt->bind_result($studentName);
+		$stmt->fetch();
+		$stmt->close();
+		
+		echo "
+				<h3 class=\"section-item-title-1\">Waitlist Position #$waitlist</h3>
+				<p>
+					<b>Student:</b> $studentName<br>
+					<b>Class:</b> $class<br>
+					<b>Location:</b> $location<br>
+					<b>Question:</b> $question<br>
+					<b>Difficulty:</b> $difficulty</br>
+				</p>
+				<form action=\"index.php\" method=\"POST\">
+				<div class=\"form-group\">
+					<label for=\"answer\">Answer</label>
+					<input type=\"text\" class=\"form-control\" name=\"answer\">
+				</div>
 
-                    <input type=\"submit\" value=\"Mark as Complete\" class=\"btn btn-primary\">
-                    <a href=\"index.php?page=logout\" class=\"btn btn-danger\">Sign Out</a>
-                    </form>";
-            }
-            else{
-                include_once 'includes/pages/tickets_create_form.php';
-            }
+				<input type=\"submit\" value=\"Mark as Complete\" class=\"btn btn-primary\">
+				<a href=\"index.php?page=logout\" class=\"btn btn-danger\">Sign Out</a>
+				</form>";
+		}
+		else{
+			include_once 'includes/pages/tickets_create_form.php';
+		}
     ?>
 </div>

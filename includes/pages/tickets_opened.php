@@ -63,7 +63,16 @@ else if(!empty($_POST["cancelID"])){
 	$message="Help Canceled";
 }
 
-$stmt = $link->prepare("SELECT id, name, class, location, question, difficulty, created_time FROM questions WHERE mentor_id=? AND completed_time IS NULL");
+$stmt = $link->prepare("SELECT questions.id, mentors.name, questions.class, questions.location, questions.question, questions.difficulty 
+						FROM questions, mentors
+						WHERE mentors.email=questions.name
+						AND questions.mentor_id=? 
+						AND questions.completed_time IS NULL");
+
+
+
+
+
 $stmt->bind_param("s", $id);
 $stmt->execute();
 $stmt->bind_result($helpID, $name, $class, $location, $question, $difficulty, $created_time);
@@ -101,10 +110,11 @@ $stmt->close();
 			
 			else{
 				$count=0;
-				$stmt = $link->prepare("SELECT id, name, class, location, question, difficulty 
-										FROM questions 
-										WHERE completed_time IS NULL
-										AND assigned_time IS NULL");
+				$stmt = $link->prepare("SELECT questions.id, mentors.name, questions.class, questions.location, questions.question, questions.difficulty 
+										FROM questions, mentors
+										WHERE mentors.email=questions.name
+										AND questions.completed_time IS NULL
+										AND questions.assigned_time IS NULL");
 				$stmt->execute();
 				$stmt->bind_result($id, $name, $class, $location, $question, $difficulty);
 				while ($stmt->fetch()) {
